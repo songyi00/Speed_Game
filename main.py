@@ -5,6 +5,8 @@ try:
 except:
     import tkinter as tk
 
+import winsound
+
 
 class SampleApp(tk.Tk):
     def __init__(self):
@@ -42,5 +44,7 @@ class PageOne(tk.Frame):
 
 if __name__ == "__main__":
     app = SampleApp()
+    winsound.PlaySound("SpeedGameBgm.mp3", winsound.SND_NOSTOP)
     app.geometry('600x500+100+100')
     app.mainloop()
+    
