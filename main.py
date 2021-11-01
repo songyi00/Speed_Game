@@ -1,5 +1,9 @@
 import tkinter.font as tkFont
 import pandas as pd
+import os
+import random
+import PIL.Image
+import PIL.ImageTk
 
 try:
     import Tkinter as tk
@@ -47,11 +51,20 @@ class PageOne(tk.Frame):
                   background="black", font=BtnFont, relief="ridge",
                   command=lambda: master.switch_frame(StartPage)).pack(side="bottom")
 
+
 class PageCountry(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x", pady=5)
+        filename = random.choice(os.listdir("./images"))
+        code = filename.split(".")[0]
+        path = "./images/"+filename
+        ref = PIL.Image.open(path)
+        photo = PIL.ImageTk.PhotoImage(file=path)
+        image = tk.PhotoImage(file=path)
+        tk.Label(self, image=photo).pack(pady=10)
+        print(filename)
 
 
 if __name__ == "__main__":
