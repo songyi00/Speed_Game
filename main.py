@@ -1,4 +1,5 @@
 import tkinter.font as tkFont
+from PIL import Image, ImageTk
 
 try:
     import Tkinter as tk
@@ -25,13 +26,21 @@ class SampleApp(tk.Tk):
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+        '''
+        # 배경 img 넣기
+        ImagePath = 'halloween.png'
+        img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
+        lbl = tk.Label(self, image=img)
+        lbl.image = img
+        lbl.place(x=0, y=0, relwidth=1, relheight=1, anchor="center")
+        '''
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         startBtnFont = tkFont.Font(family="Consolas", size=20)
         tk.Label(self, text="Speed Game", font=labelFont).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Start",foreground="red",
-                  background="white",padx="100",font=startBtnFont,relief="ridge",
+        tk.Button(self, text="Start", foreground="red",
+                  background="white", padx="100", font=startBtnFont, relief="ridge",
                   command=lambda: master.switch_frame(PageOne)).pack()
-        
+
 
 class PageOne(tk.Frame):
     def __init__(self, master):
@@ -47,4 +56,4 @@ if __name__ == "__main__":
     winsound.PlaySound("SpeedGameBgm.mp3", winsound.SND_NOSTOP)
     app.geometry('600x500+100+100')
     app.mainloop()
-    
+
