@@ -36,14 +36,15 @@ class StartPage(tk.Frame):
 class PageOne(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        tk.Frame.configure(self, bg='blue')
-        tk.Label(self, text="Page one", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
+        labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
+        tk.Label(self, text="MENU", font=labelFont).pack(side="top", fill="x", pady=5)
         tk.Button(self, text="Go back to start page",
                   command=lambda: master.switch_frame(StartPage)).pack()
 
 
-
 if __name__ == "__main__":
     app = SampleApp()
-    app.mainloop()
     winsound.PlaySound("SpeedGameBgm.mp3", winsound.SND_NOSTOP)
+    app.geometry('600x500+100+100')
+    app.mainloop()
+    
