@@ -14,5 +14,9 @@ label = Label(root, text="Speed Game")
 # 레이블을 화면에 배치
 label.pack()
 
+# start 버튼 추가
+startBtn = Button(root, text='start')
+startBtn.pack()
+
 label.configure(font=fontExample)
 root.mainloop()
