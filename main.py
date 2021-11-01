@@ -1,4 +1,5 @@
 import tkinter.font as tkFont
+import pandas as pd
 
 try:
     import Tkinter as tk
@@ -26,25 +27,44 @@ class StartPage(tk.Frame):
         tk.Frame.__init__(self, master)
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         startBtnFont = tkFont.Font(family="Consolas", size=20)
-        tk.Label(self, text="Speed Game", font=labelFont).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Start",foreground="red",
-                  background="white",padx="100",font=startBtnFont,relief="ridge",
-                  command=lambda: master.switch_frame(PageOne)).pack()
-        
+        tk.Label(self, text="Speed Game", font=labelFont).pack(fill="x", pady=100)
+        tk.Button(self, text="Start", foreground="red",
+                  background="white", padx="100", font=startBtnFont, relief="ridge",
+                  command=lambda: master.switch_frame(PageOne)).pack(pady=20)
 
 class PageOne(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         tk.Label(self, text="MENU", font=labelFont).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Go back to start page",
-                  command=lambda: master.switch_frame(StartPage)).pack()
+        BtnFont = tkFont.Font(family="Consolas", size=20)
+        tk.Button(self, text="Country", foreground="yellow",
+                  width=15, height=1,
+                  background="black", font=BtnFont, relief="ridge",
+                  command=lambda: master.switch_frame(PageCountry)).pack(pady=20)
+        tk.Button(self, text="preve page", foreground="yellow",
+                  width=15, height=1,
+                  background="black", font=BtnFont, relief="ridge",
+                  command=lambda: master.switch_frame(StartPage)).pack(side="bottom")
+
+class PageCountry(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
+        tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x", pady=5)
 
 
 if __name__ == "__main__":
     pygame.init()
     mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
     mySound.play(-1)
+
+    df = pd.read_excel("./CountryCodeData.xlsx", index_col=0, names=["code", "country"])
+    print(df["country"]["KR"])
+
     app = SampleApp()
+    # winsound.PlaySound("SpeedGameBgm.mp3", winsound.SND_NOSTOP)
+    app.title("Speed Game")
+
     app.geometry('600x500+100+100')
     app.mainloop()
