@@ -1,31 +1,46 @@
-from tkinter import *
 import tkinter.font as tkFont
 
-root = Tk()
+try:
+    import Tkinter as tk
+except:
+    import tkinter as tk
 
-root.title("Speed Game")
-root.geometry("600x400+100+100")
-root.resizable
 
-labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
-startBtnFont = tkFont.Font(family="Consolas", size=20)
+class SampleApp(tk.Tk):
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self._frame = None
+        self.switch_frame(StartPage)
 
-# 레이블 생성 + 옵션 추가
-label = Label(root, text="Speed Game")
-label.configure(font=labelFont)
-label.configure(background="white")
-# 레이블을 화면에 배치
-label.pack()
+    def switch_frame(self, frame_class):
+        new_frame = frame_class(self)
+        if self._frame is not None:
+            self._frame.destroy()
+        self._frame = new_frame
+        self._frame.pack()
 
-# start 버튼 추가 + 옵션 추가
-startBtn = Button(root, text="start")   # 버튼 text
-startBtn.configure(foreground="red")    # 버튼 문자열 색상
-startBtn.configure(background="white")  # 버튼 background 색상
-startBtn.configure(padx="100")          # 버튼 가로 padding
-startBtn.configure(font=startBtnFont)   # 버튼 폰트
-startBtn.configure(relief="ridge")
 
-startBtn.pack()  # 화면에 배치
+class StartPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
+        startBtnFont = tkFont.Font(family="Consolas", size=20)
+        tk.Label(self, text="Speed Game", font=labelFont).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Start",foreground="red",
+                  background="white",padx="100",font=startBtnFont,relief="ridge",
+                  command=lambda: master.switch_frame(PageOne)).pack()
+        
 
-root.configure(background="white")
-root.mainloop()
+class PageOne(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        tk.Frame.configure(self, bg='blue')
+        tk.Label(self, text="Page one", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Go back to start page",
+                  command=lambda: master.switch_frame(StartPage)).pack()
+
+
+
+if __name__ == "__main__":
+    app = SampleApp()
+    app.mainloop()
