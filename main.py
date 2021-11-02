@@ -28,14 +28,6 @@ class SampleApp(tk.Tk):
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        '''
-        # 배경 img 넣기
-        ImagePath = 'halloween.png'
-        img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
-        lbl = tk.Label(self, image=img)
-        lbl.image = img
-        lbl.place(x=0, y=0, relwidth=1, relheight=1, anchor="center")
-        '''
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         startBtnFont = tkFont.Font(family="Consolas", size=20)
         tk.Label(self, text="Speed Game", font=labelFont).pack(fill="x", pady=100)
@@ -46,6 +38,22 @@ class StartPage(tk.Frame):
 class PageOne(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+        #ImagePath = 'halloween.gif'
+        #background_img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
+        #canvas = tk.Canvas(self)
+        #canvas.create_image(0, 0, image=background_img, anchor="nw")
+        #canvas.place(x=0, y=0, relwidth=1, relheight=1)
+        #canvas.create_text(300, 200, fill="white", text="TITLE")
+
+        # 배경 img 넣기
+        # ImagePath = 'halloween.png'
+        # background_img = ImageTk.PhotoImage(Image.open(ImagePath).resize((5, 5), Image.ANTIALIAS))
+        # background_label = tk.Label(self, image=background_img)
+        # background_label.pack()
+        # background_label.place(x=-50, y=-2)
+        # frame = tk.Frame(self)
+        # frame.place(anchor="center", relx=0.5, rely=0.5)
+
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         tk.Label(self, text="MENU", font=labelFont).pack(side="top", fill="x", pady=5)
         BtnFont = tkFont.Font(family="Consolas", size=20)
@@ -67,8 +75,8 @@ class PageCountry(tk.Frame):
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
         path = "./images/"+filename
-        ref = PIL.Image.open(path)
-        photo = PIL.ImageTk.PhotoImage(file=path)
+        ref = Image.open(path)
+        photo = ImageTk.PhotoImage(file=path)
         image = tk.PhotoImage(file=path)
         tk.Label(self, image=photo).pack(pady=10)
         print(filename)
@@ -88,3 +96,4 @@ if __name__ == "__main__":
 
     app.geometry('600x500+100+100')
     app.mainloop()
+
