@@ -7,4 +7,5 @@ The speed game we created is a game that guesses the capital of various countrie
 ```shell
 pip install pandas
 pip install openpyxl
+pip install pillow
 ```
