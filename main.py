@@ -145,9 +145,10 @@ class CountryPage(tk.Frame):
         self.num = 180
         mins, secs = divmod(self.num, 60)
         timeformat = '{:02d}:{:02d}'.format(mins, secs)
-        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
+        TimerFont = tkFont.Font(family="Arial", size=10, weight="bold", slant="italic")
         self.timer = tk.Label(self, text=timeformat, font=TimerFont)
         self.timer.pack(side="right", pady=20)
+        canv.create_text(20, (500 // 2) + 40, fill="white", text=timeformat, font=TimerFont)
         self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
         self.threadctl.start()
 
@@ -163,15 +164,14 @@ class CountryPage(tk.Frame):
             ImagePath = 'correct.png'
             self.img3 = ImageTk.PhotoImage(Image.open(ImagePath).resize((100, 100), Image.ANTIALIAS))
             correctImage = canv.create_image(450, 30, anchor="nw", image=self.img3)
+            canv.after(1000, self.delete_img, canv, correctImage)
         else:
             # wrong
             print('틀렸슴돠')
             ImagePath = 'wrong.png'
             self.img4 = ImageTk.PhotoImage(Image.open(ImagePath).resize((100, 100), Image.ANTIALIAS))
-
             wrongImage = canv.create_image(450, 30, anchor="nw", image=self.img4)
-
-            canv.after(2000, self.delete_img, canv, wrongImage)
+            canv.after(1000, self.delete_img, canv, wrongImage)
 
 
         #master.switch_frame(CountryPage)
