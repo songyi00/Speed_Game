@@ -93,9 +93,6 @@ class CountryPage(tk.Frame):
         global df
         tk.Frame.__init__(self, master)
 
-        labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
-        tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x")
-
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
 
