@@ -84,16 +84,29 @@ class PageCountry(tk.Frame):
         print(countryPath)
         print(df["country"][code.upper()])
         print(filename)
+
         canv = tk.Canvas(self, width=180, height=160, bg='white')
-        canv.pack(side='bottom')
+        canv.pack()
         self.img = ImageTk.PhotoImage(Image.open(countryPath))
         canv.create_image(30, 30, anchor="nw", image=self.img)
 
+        labelFont = tkFont.Font(family="Arial", size=20, slant="italic")
+        BtnFont = tkFont.Font(family="Consolas", size=15)
+
+        tk.Label(self, text="answer",font=labelFont).pack()
+        input_text = tk.Entry(self, width=30)
+        input_text.pack(pady=10)
+
+        tk.Button(self, text="check",
+                  width=15, height=2,font = BtnFont,
+                  background="black", relief="ridge",
+                  command=lambda: master.switch_frame(StartPage)).pack()
+
 
 if __name__ == "__main__":
-    pygame.init()
-    mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
-    mySound.play(-1)
+    #pygame.init()
+    #mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
+    #mySound.play(-1)
 
     df = pd.read_excel("./CountryCodeData.xlsx", index_col=0, names=["code", "country"])
     print(df["country"]["KR"])
