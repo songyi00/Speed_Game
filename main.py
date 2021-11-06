@@ -74,12 +74,15 @@ class PageCountry(tk.Frame):
         tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x", pady=5)
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
-        path = "./images/"+filename
-        ref = Image.open(path)
-        photo = ImageTk.PhotoImage(file=path)
-        image = tk.PhotoImage(file=path)
-        tk.Label(self, image=photo).pack(pady=10)
+        countryPath = "./images/"+filename
+
+        print(countryPath)
+        print(df["country"][code.upper()])
         print(filename)
+
+        countryImg = ImageTk.PhotoImage(Image.open(countryPath).resize((5, 5), Image.ANTIALIAS))
+        country_label = tk.Label(self, image=countryImg)
+        country_label.pack(pady=15)
 
 
 if __name__ == "__main__":
