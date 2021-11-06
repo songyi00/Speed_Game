@@ -4,6 +4,7 @@ import os
 import random
 from PIL import Image, ImageTk
 
+
 try:
     import Tkinter as tk
 except:
@@ -77,6 +78,7 @@ class PageCountry(tk.Frame):
         tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x", pady=5)
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
+
         countryPath = "./images/"+filename
 
         print(countryPath)
@@ -100,6 +102,6 @@ if __name__ == "__main__":
     # winsound.PlaySound("SpeedGameBgm.mp3", winsound.SND_NOSTOP)
     app.title("Speed Game")
 
+
     app.geometry('600x500+100+100')
     app.mainloop()
-
