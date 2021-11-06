@@ -4,7 +4,6 @@ import os
 import random
 from PIL import Image, ImageTk
 
-
 try:
     import Tkinter as tk
 except:
@@ -76,9 +75,20 @@ class CategoryPage(tk.Frame):
                   command=lambda: master.switch_frame(StartPage))
         canv.create_window((600 // 2), (500 // 2) - 10, window=prevBtn)
 
+def passBtn_click(master):
+    global pass_count
+    pass_count = pass_count - 1
+    if(pass_count < 0):
+        print("패스 그만")
+    master.switch_frame(CountryPage)
+
+def checkBtn_click(master):
+    master.switch_frame(CountryPage)
 
 class CountryPage(tk.Frame):
     def __init__(self, master):
+        global pass_count
+        global df
         tk.Frame.__init__(self, master)
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x", pady=5)
@@ -108,20 +118,23 @@ class CountryPage(tk.Frame):
         input_text = tk.Entry(self, width=30)
         input_text.pack(pady=10)
 
-        tk.Button(self, text="check",
-                  width=10, height=1, font = BtnFont,foreground = "yellow",
-                  background="black", relief="ridge",
-                  command=lambda: master.switch_frame(CountryPage)).pack(side="left", pady=20)
-        tk.Button(self, text="pass: " +str(pass_count)+"/3",
+        check_btn = tk.Button(self, text="check",
                   width=10, height=1, font=BtnFont, foreground="yellow",
                   background="black", relief="ridge",
-                  command=lambda: master.switch_frame(CountryPage)).pack(side="right", padx=5, pady=20)
+                  command=lambda: checkBtn_click(master))
+        check_btn.pack(side="left", pady=20)
+        pass_btn = tk.Button(self, text="pass: " +str(pass_count)+"/3",
+                  width=10, height=1, font=BtnFont, foreground="yellow",
+                  background="black", relief="ridge",
+                  command=lambda : passBtn_click(master))
+        pass_btn.pack(side="right", padx=5, pady=20)
 
 
 if __name__ == "__main__":
     #pygame.init()
     #mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
     #mySound.play(-1)
+    # global variable
     pass_count = 3
 
     df = pd.read_excel("./CountryCodeData.xlsx", index_col=0, names=["code", "country"])
@@ -130,7 +143,6 @@ if __name__ == "__main__":
     app = SampleApp()
     # winsound.PlaySound("SpeedGameBgm.mp3", winsound.SND_NOSTOP)
     app.title("Speed Game")
-
 
     app.geometry('600x500+100+100')
     app.mainloop()
