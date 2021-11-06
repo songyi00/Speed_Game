@@ -1,9 +1,11 @@
 import tkinter.font as tkFont
+from tkinter import messagebox
 import pandas as pd
 import os
 import random
 from PIL import Image, ImageTk
 import threading
+
 
 try:
     import Tkinter as tk
@@ -151,6 +153,9 @@ class CountryPage(tk.Frame):
         if (self.num >= 0):
             self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
             self.threadctl.start()
+
+
+
 
 
 class FinishPage(tk.Frame):
