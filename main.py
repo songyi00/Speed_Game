@@ -79,7 +79,7 @@ class PageCountry(tk.Frame):
         print(countryPath)
         print(df["country"][code.upper()])
         print(filename)
-        canv = tk.Canvas(self, widt=180, height=160, bg='white')
+        canv = tk.Canvas(self, width=180, height=160, bg='white')
         canv.pack(side='bottom')
         self.img = ImageTk.PhotoImage(Image.open(countryPath))
         canv.create_image(30, 30, anchor="nw", image=self.img)
