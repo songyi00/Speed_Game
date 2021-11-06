@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import random
 from PIL import Image, ImageTk
+import time
 
 try:
     import Tkinter as tk
@@ -82,16 +83,12 @@ def passBtn_click(master):
         print("패스 그만")
     master.switch_frame(CountryPage)
 
-def checkBtn_click(master):
-    master.switch_frame(CountryPage)
 
 class CountryPage(tk.Frame):
     def __init__(self, master):
         global pass_count
         global df
         tk.Frame.__init__(self, master)
-        labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
-        tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x", pady=5)
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
 
@@ -105,29 +102,71 @@ class CountryPage(tk.Frame):
         print(countryPath)
         print(df["country"][code.upper()])
         print(filename)
+        answer = df["country"][code.upper()]
 
-        canv = tk.Canvas(self, width=180, height=160, bg='white')
+        backgroundPath = 'halloween.png'
+        canv = tk.Canvas(self, width=600, height=500, bg='white')
         canv.pack()
-        self.img = ImageTk.PhotoImage(Image.open(countryPath))
-        canv.create_image(30, 30, anchor="nw", image=self.img)
+        self.img1 = ImageTk.PhotoImage(Image.open(backgroundPath).resize((600, 500), Image.ANTIALIAS))
+        canv.create_image(0, 0, anchor="nw", image=self.img1)
 
-        labelFont = tkFont.Font(family="Arial", size=20, slant="italic")
+        titleFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
+        canv.create_text((600 // 2), (500 // 2) - 190, fill="white", text="Country", font=titleFont)
+
+        self.img2 = ImageTk.PhotoImage(Image.open(countryPath).resize((180, 130), Image.ANTIALIAS))
+        canv.create_image(210, 130, anchor="nw", image=self.img2)
+
+        labelFont = tkFont.Font(family="Arial", size=17, slant="italic")
         BtnFont = tkFont.Font(family="Consolas", size=15)
 
-        tk.Label(self, text="answer",font=labelFont).pack()
+        canv.create_text((600 // 2), (500 // 2) + 40, fill="white", text="answer", font=labelFont)
+
         input_text = tk.Entry(self, width=30)
-        input_text.pack(pady=10)
+        canv.create_window((600 // 2), (500 // 2) + 70, window=input_text)
 
         check_btn = tk.Button(self, text="check",
                   width=10, height=1, font=BtnFont, foreground="yellow",
                   background="black", relief="ridge",
-                  command=lambda: checkBtn_click(master))
-        check_btn.pack(side="left", pady=20)
+                  activebackground="yellow", activeforeground="black",
+                  command=lambda: self.checkBtn_click(master, input_text.get(), answer, canv))
+        canv.create_window((600 // 2)-80, (500 // 2) + 140, window=check_btn)
+
         pass_btn = tk.Button(self, text="pass: " +str(pass_count)+"/3",
                   width=10, height=1, font=BtnFont, foreground="yellow",
                   background="black", relief="ridge",
+                  activebackground="yellow", activeforeground="black",
                   command=lambda : passBtn_click(master))
-        pass_btn.pack(side="right", padx=5, pady=20)
+        canv.create_window((600 // 2)+80, (500 // 2) + 140, window=pass_btn)
+
+
+    # click check button
+    def checkBtn_click(self, master, user_text, answer, canv):
+        user_text = user_text.upper().replace(" ", "")
+        answer = answer.replace(" ", "")
+
+        if (user_text == answer):
+            # correct
+            print('맞았습돠')
+            ImagePath = 'correct.png'
+            self.img3 = ImageTk.PhotoImage(Image.open(ImagePath).resize((100, 100), Image.ANTIALIAS))
+            correctImage = canv.create_image(450, 30, anchor="nw", image=self.img3)
+        else:
+            # wrong
+            print('틀렸슴돠')
+            ImagePath = 'wrong.png'
+            self.img4 = ImageTk.PhotoImage(Image.open(ImagePath).resize((100, 100), Image.ANTIALIAS))
+
+            wrongImage = canv.create_image(450, 30, anchor="nw", image=self.img4)
+
+            canv.after(2000, self.delete_img, canv, wrongImage)
+
+
+        #master.switch_frame(CountryPage)
+        
+    def delete_img(self, canv, dele_img_name):
+        canv.delete(dele_img_name)
+
+
 
 class FinishPage(tk.Frame):
     def __init__(self, master):
