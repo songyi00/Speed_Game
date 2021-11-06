@@ -85,6 +85,11 @@ class CountryPage(tk.Frame):
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
 
+        # 엑셀에 없는 이미지일 경우 예외처리
+        while code.upper() not in df.index:
+            filename = random.choice(os.listdir("./images"))
+            code = filename.split(".")[0]
+
         countryPath = "./images/"+filename
 
         print(countryPath)
@@ -106,11 +111,11 @@ class CountryPage(tk.Frame):
         tk.Button(self, text="check",
                   width=10, height=1, font = BtnFont,foreground = "yellow",
                   background="black", relief="ridge",
-                  command=lambda: master.switch_frame(StartPage)).pack(side="left", pady=20)
+                  command=lambda: master.switch_frame(CountryPage)).pack(side="left", pady=20)
         tk.Button(self, text="pass: " +str(pass_count)+"/3",
                   width=10, height=1, font=BtnFont, foreground="yellow",
                   background="black", relief="ridge",
-                  command=lambda: master.switch_frame(StartPage)).pack(side="right", padx=5, pady=20)
+                  command=lambda: master.switch_frame(CountryPage)).pack(side="right", padx=5, pady=20)
 
 
 if __name__ == "__main__":
