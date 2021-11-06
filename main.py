@@ -5,6 +5,7 @@ import os
 import random
 from PIL import Image, ImageTk
 import threading
+from tkinter import messagebox
 
 
 try:
@@ -138,7 +139,7 @@ class CountryPage(tk.Frame):
         timeformat = '{:02d}:{:02d}'.format(mins, secs)
         TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
         self.timer = tk.Label(self, text=timeformat, font=TimerFont)
-        self.timer.pack(pady=20)
+        self.timer.pack(side="right", pady=20)
         self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
         self.threadctl.start()
 
@@ -153,6 +154,25 @@ class CountryPage(tk.Frame):
         if (self.num >= 0):
             self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
             self.threadctl.start()
+        else:
+            msgBox = tk.messagebox.askretrycancel('Exit App', 'Really Quit?')
+            if msgBox == True:
+                self.master.switch_frame(StartPage)
+            else:
+                self.master.switch_frame(FinishPage)
+
+class FinishPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        ImagePath = 'halloween.png'
+        canv = tk.Canvas(self, width=600, height=500, bg='white')
+        canv.pack(side='bottom')
+        self.img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
+        canv.create_image(0, 0, anchor="nw", image=self.img)
+
+        labelFont = tkFont.Font(family="Arial", size=40, weight="bold")
+        canv.create_text((600 // 2), (500 // 2) - 100, fill="white", text="총점수", font=labelFont)
+        canv.create_text((600 // 2), (500 // 2) - 70, fill="white", text="수고하셨습니다.", font=labelFont)
 
 
 
