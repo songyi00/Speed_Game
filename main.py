@@ -29,13 +29,26 @@ class SampleApp(tk.Tk):
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+        ImagePath = 'halloween.png'
+        #background_img = ImageTk.PhotoImage(Image.open(ImagePath).resize((self.winfo_width(), self.winfo_height()), Image.ANTIALIAS))
+
+        #canv = tk.Canvas(self, width=180, height=160)
+        #canv.pack(expand=True, fill = "both")
+        #canv.create_image(0, 0, anchor="nw", image=background_img)
+
+        canv = tk.Canvas(self, width=600, height=500, bg='white')
+        canv.pack(side='bottom')
+        self.img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
+        canv.create_image(0, 0, anchor="nw", image=self.img)
+
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         startBtnFont = tkFont.Font(family="Consolas", size=20)
-        tk.Label(self, text="Speed Game", font=labelFont).pack(fill="x", pady=100)
-        tk.Button(self, text="Start", foreground="yellow",
-                  background="black", padx="100", font=startBtnFont, relief="ridge",
-                  borderwidth=5, highlightbackground="yellow",
-                  command=lambda: master.switch_frame(PageOne)).pack(pady=20)
+
+        canv.create_text((600//2), (500//2)-25, fill = "white", text="Speed Game", font=labelFont)
+        startBtn = tk.Button(canv, text="START", font=startBtnFont, foreground="yellow", background="black",padx="100",
+                             relief="ridge", borderwidth=5, highlightbackground="yellow",
+                             command=lambda: master.switch_frame(PageOne))
+        canv.create_window((600//2), (500//2) + 25, window=startBtn)
 
 class PageOne(tk.Frame):
     def __init__(self, master):
