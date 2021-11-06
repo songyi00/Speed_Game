@@ -114,12 +114,17 @@ class PageCountry(tk.Frame):
                   width=10, height=2,font = BtnFont,foreground = "yellow",
                   background="black", relief="ridge",
                   command=lambda: master.switch_frame(StartPage)).pack()
+        tk.Button(self, text="pass: " +pass_count+"/3",
+                  width=10, height=1, font=BtnFont, foreground="yellow",
+                  background="black", relief="ridge",
+                  command=lambda: master.switch_frame(StartPage)).pack()
 
 
 if __name__ == "__main__":
     #pygame.init()
     #mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
     #mySound.play(-1)
+    pass_count = 3
 
     df = pd.read_excel("./CountryCodeData.xlsx", index_col=0, names=["code", "country"])
     print(df["country"]["KR"])
