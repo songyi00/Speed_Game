@@ -104,14 +104,14 @@ class PageCountry(tk.Frame):
         canv.create_image(30, 30, anchor="nw", image=self.img)
 
         labelFont = tkFont.Font(family="Arial", size=20, slant="italic")
-        BtnFont = tkFont.Font(family="Consolas", size=15)
+        BtnFont = tkFont.Font(family="Consolas", size=12)
 
         tk.Label(self, text="answer",font=labelFont).pack()
         input_text = tk.Entry(self, width=30)
         input_text.pack(pady=10)
 
         tk.Button(self, text="check",
-                  width=15, height=2,font = BtnFont,
+                  width=15, height=2,font = BtnFont,foreground = "yellow",
                   background="black", relief="ridge",
                   command=lambda: master.switch_frame(StartPage)).pack()
 
