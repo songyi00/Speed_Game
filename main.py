@@ -129,6 +129,19 @@ class CountryPage(tk.Frame):
                   command=lambda : passBtn_click(master))
         pass_btn.pack(side="right", padx=5, pady=20)
 
+class FinishPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        ImagePath = 'halloween.png'
+        canv = tk.Canvas(self, width=600, height=500, bg='white')
+        canv.pack(side='bottom')
+        self.img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
+        canv.create_image(0, 0, anchor="nw", image=self.img)
+
+        labelFont = tkFont.Font(family="Arial", size=40, weight="bold")
+        canv.create_text((600 // 2), (500 // 2) - 100, fill="white", text="총점수", font=labelFont)
+        canv.create_text((600 // 2), (500 // 2) - 70, fill="white", text="수고하셨습니다.", font=labelFont)
+
 
 if __name__ == "__main__":
     #pygame.init()
