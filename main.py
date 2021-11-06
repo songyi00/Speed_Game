@@ -31,8 +31,9 @@ class StartPage(tk.Frame):
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
         startBtnFont = tkFont.Font(family="Consolas", size=20)
         tk.Label(self, text="Speed Game", font=labelFont).pack(fill="x", pady=100)
-        tk.Button(self, text="Start", foreground="red",
-                  background="white", padx="100", font=startBtnFont, relief="ridge",
+        tk.Button(self, text="Start", foreground="yellow",
+                  background="black", padx="100", font=startBtnFont, relief="ridge",
+                  borderwidth=5, highlightbackground="yellow",
                   command=lambda: master.switch_frame(PageOne)).pack(pady=20)
 
 class PageOne(tk.Frame):
@@ -60,10 +61,12 @@ class PageOne(tk.Frame):
         tk.Button(self, text="Country", foreground="yellow",
                   width=15, height=1,
                   background="black", font=BtnFont, relief="ridge",
+                  borderwidth=5, highlightbackground="yellow",
                   command=lambda: master.switch_frame(PageCountry)).pack(pady=20)
         tk.Button(self, text="preve page", foreground="yellow",
                   width=15, height=1,
                   background="black", font=BtnFont, relief="ridge",
+                  borderwidth=5, highlightbackground="yellow",
                   command=lambda: master.switch_frame(StartPage)).pack(side="bottom")
 
 
