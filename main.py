@@ -111,7 +111,7 @@ class PageCountry(tk.Frame):
         input_text.pack(pady=10)
 
         tk.Button(self, text="check",
-                  width=15, height=2,font = BtnFont,foreground = "yellow",
+                  width=10, height=2,font = BtnFont,foreground = "yellow",
                   background="black", relief="ridge",
                   command=lambda: master.switch_frame(StartPage)).pack()
 
