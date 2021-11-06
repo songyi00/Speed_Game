@@ -29,62 +29,55 @@ class SampleApp(tk.Tk):
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+
         ImagePath = 'halloween.png'
-        #background_img = ImageTk.PhotoImage(Image.open(ImagePath).resize((self.winfo_width(), self.winfo_height()), Image.ANTIALIAS))
-
-        #canv = tk.Canvas(self, width=180, height=160)
-        #canv.pack(expand=True, fill = "both")
-        #canv.create_image(0, 0, anchor="nw", image=background_img)
-
         canv = tk.Canvas(self, width=600, height=500, bg='white')
         canv.pack(side='bottom')
         self.img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
         canv.create_image(0, 0, anchor="nw", image=self.img)
 
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
+        canv.create_text((600//2), (500//2)-40, fill = "white", text="Speed Game", font=labelFont)
+
         startBtnFont = tkFont.Font(family="Consolas", size=20)
-
-        canv.create_text((600//2), (500//2)-25, fill = "white", text="Speed Game", font=labelFont)
-        startBtn = tk.Button(canv, text="START", font=startBtnFont, foreground="yellow", background="black",padx="100",
+        startBtn = tk.Button(canv, text="START", font=startBtnFont, foreground="yellow", background="black",
                              relief="ridge", borderwidth=5, highlightbackground="yellow",
-                             command=lambda: master.switch_frame(PageOne))
-        canv.create_window((600//2), (500//2) + 25, window=startBtn)
+                             activebackground="yellow", activeforeground="black",
+                             command=lambda: master.switch_frame(CategoryPage))
+        canv.create_window((600//2), (500//2) + 100, window=startBtn)
 
-class PageOne(tk.Frame):
+class CategoryPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        #ImagePath = 'halloween.gif'
-        #background_img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
-        #canvas = tk.Canvas(self)
-        #canvas.create_image(0, 0, image=background_img, anchor="nw")
-        #canvas.place(x=0, y=0, relwidth=1, relheight=1)
-        #canvas.create_text(300, 200, fill="white", text="TITLE")
 
-        # 배경 img 넣기
-        # ImagePath = 'halloween.png'
-        # background_img = ImageTk.PhotoImage(Image.open(ImagePath).resize((5, 5), Image.ANTIALIAS))
-        # background_label = tk.Label(self, image=background_img)
-        # background_label.pack()
-        # background_label.place(x=-50, y=-2)
-        # frame = tk.Frame(self)
-        # frame.place(anchor="center", relx=0.5, rely=0.5)
+        ImagePath = 'halloween.png'
+        canv = tk.Canvas(self, width=600, height=500, bg='white')
+        canv.pack(side='bottom')
+        self.img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
+        canv.create_image(0, 0, anchor="nw", image=self.img)
 
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
-        tk.Label(self, text="MENU", font=labelFont).pack(side="top", fill="x", pady=5)
-        BtnFont = tkFont.Font(family="Consolas", size=20)
-        tk.Button(self, text="Country", foreground="yellow",
+        canv.create_text((600 // 2), (500 // 2) - 190, fill="white", text="Speed Game", font=labelFont)
+
+        btnFont = tkFont.Font(family="Consolas", size=20)
+        countryBtn = tk.Button(self, text="country", foreground="yellow",
                   width=15, height=1,
-                  background="black", font=BtnFont, relief="ridge",
+                  background="black", font=btnFont, relief="ridge",
                   borderwidth=5, highlightbackground="yellow",
-                  command=lambda: master.switch_frame(PageCountry)).pack(pady=20)
-        tk.Button(self, text="preve page", foreground="yellow",
+                  activebackground="yellow", activeforeground="black",
+                  command=lambda: master.switch_frame(CountryPage))
+        canv.create_window((600 // 2), (500 // 2) - 100, window=countryBtn)
+
+        prevBtn = tk.Button(self, text="preve page", foreground="yellow",
                   width=15, height=1,
-                  background="black", font=BtnFont, relief="ridge",
+                  background="black", font=btnFont, relief="ridge",
                   borderwidth=5, highlightbackground="yellow",
-                  command=lambda: master.switch_frame(StartPage)).pack(side="bottom")
+                  activebackground="yellow", activeforeground="black",
+                  command=lambda: master.switch_frame(StartPage))
+        canv.create_window((600 // 2), (500 // 2) - 10, window=prevBtn)
 
 
-class PageCountry(tk.Frame):
+class CountryPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
