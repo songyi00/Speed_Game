@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import random
 from PIL import Image, ImageTk
+import threading
 
 try:
     import Tkinter as tk
@@ -90,8 +91,9 @@ class CountryPage(tk.Frame):
         global pass_count
         global df
         tk.Frame.__init__(self, master)
+
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold", slant="italic")
-        tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x", pady=5)
+        tk.Label(self, text="Country", font=labelFont).pack(side="top", fill="x")
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
 
@@ -142,19 +144,38 @@ class FinishPage(tk.Frame):
         canv.create_text((600 // 2), (500 // 2) - 100, fill="white", text="총점수", font=labelFont)
         canv.create_text((600 // 2), (500 // 2) - 70, fill="white", text="수고하셨습니다.", font=labelFont)
 
+        self.num = 180
+        mins, secs = divmod(self.num, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
+        self.timer = tk.Label(self, text=timeformat, font=TimerFont)
+        self.timer.pack(side="right",pady=20)
+        self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
+        self.threadctl.start()
+
+
+    def countdown(self, task):
+        self.timer.pack_forget()
+        self.num = self.num - 1
+        mins, secs = divmod(self.num, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
+        self.timer = tk.Label(self, text=timeformat, font=TimerFont)
+        self.timer.pack(side="right", pady=20)
+        if (self.num >= 0):
+            self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
+            self.threadctl.start()
 
 if __name__ == "__main__":
-    #pygame.init()
-    #mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
-    #mySound.play(-1)
-    # global variable
+    pygame.init()
+    mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
+    mySound.play(-1)
     pass_count = 3
 
     df = pd.read_excel("./CountryCodeData.xlsx", index_col=0, names=["code", "country"])
     print(df["country"]["KR"])
 
     app = SampleApp()
-    # winsound.PlaySound("SpeedGameBgm.mp3", winsound.SND_NOSTOP)
     app.title("Speed Game")
 
     app.geometry('600x500+100+100')
