@@ -131,6 +131,28 @@ class CountryPage(tk.Frame):
                   command=lambda : passBtn_click(master))
         pass_btn.pack(side="right", padx=5, pady=20)
 
+        self.num = 180
+        mins, secs = divmod(self.num, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
+        self.timer = tk.Label(self, text=timeformat, font=TimerFont)
+        self.timer.pack(pady=20)
+        self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
+        self.threadctl.start()
+
+    def countdown(self, task):
+        self.timer.pack_forget()
+        self.num = self.num - 1
+        mins, secs = divmod(self.num, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
+        self.timer = tk.Label(self, text=timeformat, font=TimerFont)
+        self.timer.pack(pady=20)
+        if (self.num >= 0):
+            self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
+            self.threadctl.start()
+
+
 class FinishPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -144,27 +166,6 @@ class FinishPage(tk.Frame):
         canv.create_text((600 // 2), (500 // 2) - 100, fill="white", text="총점수", font=labelFont)
         canv.create_text((600 // 2), (500 // 2) - 70, fill="white", text="수고하셨습니다.", font=labelFont)
 
-        self.num = 180
-        mins, secs = divmod(self.num, 60)
-        timeformat = '{:02d}:{:02d}'.format(mins, secs)
-        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
-        self.timer = tk.Label(self, text=timeformat, font=TimerFont)
-        self.timer.pack(side="right",pady=20)
-        self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
-        self.threadctl.start()
-
-
-    def countdown(self, task):
-        self.timer.pack_forget()
-        self.num = self.num - 1
-        mins, secs = divmod(self.num, 60)
-        timeformat = '{:02d}:{:02d}'.format(mins, secs)
-        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
-        self.timer = tk.Label(self, text=timeformat, font=TimerFont)
-        self.timer.pack(side="right", pady=20)
-        if (self.num >= 0):
-            self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
-            self.threadctl.start()
 
 if __name__ == "__main__":
     pygame.init()
