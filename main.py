@@ -201,22 +201,6 @@ class CountryPage(tk.Frame):
             else:
                 self.master.switch_frame(FinishPage)
 
-class FinishPage(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-        ImagePath = 'halloween.png'
-        canv = tk.Canvas(self, width=600, height=500, bg='white')
-        canv.pack(side='bottom')
-        self.img = ImageTk.PhotoImage(Image.open(ImagePath).resize((600, 500), Image.ANTIALIAS))
-        canv.create_image(0, 0, anchor="nw", image=self.img)
-
-        labelFont = tkFont.Font(family="Arial", size=40, weight="bold")
-        canv.create_text((600 // 2), (500 // 2) - 100, fill="white", text="총점수", font=labelFont)
-        canv.create_text((600 // 2), (500 // 2) - 70, fill="white", text="수고하셨습니다.", font=labelFont)
-
-
-
-
 
 class FinishPage(tk.Frame):
     def __init__(self, master):
@@ -237,6 +221,8 @@ if __name__ == "__main__":
     mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
     mySound.play(-1)
     pass_count = 3
+    problem_count = 15
+    correct_count = 0
 
     df = pd.read_excel("./CountryCodeData.xlsx", index_col=0, names=["code", "country"])
     print(df["country"]["KR"])
