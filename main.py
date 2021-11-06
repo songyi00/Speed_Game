@@ -82,18 +82,10 @@ class CategoryPage(tk.Frame):
         canv.create_window((600 // 2), (500 // 2) - 10, window=prevBtn)
 
 
-def passBtn_click(master):
-    global pass_count
-    pass_count = pass_count - 1
-    if (pass_count < 0):
-        print("패스 그만")
-    master.switch_frame(CountryPage)
-
-
 class CountryPage(tk.Frame):
     def __init__(self, master):
         global pass_count, answer, country_img
-        global df
+        global df, pass_window
         tk.Frame.__init__(self, master)
 
         filename = random.choice(os.listdir("./images"))
@@ -142,15 +134,15 @@ class CountryPage(tk.Frame):
                              width=10, height=1, font=BtnFont, foreground="yellow",
                              background="black", relief="ridge",
                              activebackground="yellow", activeforeground="black",
-                             command=lambda: passBtn_click(master))
-        canv.create_window((600 // 2) + 80, (500 // 2) + 140, window=pass_btn)
+                             command=lambda: self.passBtn_click(tk, canv, country_img))
+        pass_window = canv.create_window((600 // 2) + 80, (500 // 2) + 140, window=pass_btn)
 
         self.num = 180
         mins, secs = divmod(self.num, 60)
         timeformat = '{:02d}:{:02d}'.format(mins, secs)
         TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
         timer_text = canv.create_text(100, 100, fill="white", text=timeformat, font=TimerFont)
-        canv.after(1000, self.count, canv, timer_text)
+        canv.after(1, self.count, canv, timer_text)
 
     def count(self, canv, timer_text):
         mins, secs = divmod(self.num, 60)
@@ -159,7 +151,7 @@ class CountryPage(tk.Frame):
         TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
         timer_text = canv.create_text(100, 100, fill="white", text=timeformat, font=TimerFont)
         self.num -= 1
-        if self.num == 0:
+        if self.num < 0:
             msgBox = tk.messagebox.askretrycancel('Exit App', 'Really Quit?')
             if msgBox == True:
                 self.master.switch_frame(StartPage)
@@ -171,6 +163,9 @@ class CountryPage(tk.Frame):
     # click check button
     def checkBtn_click(self, master, user_text, check_answer, canv, check_img):
         global answer, country_img
+        global correct_count, problem_count
+        problem_count -= 1
+
         user_text = user_text.upper().replace(" ", "")
         check_answer = check_answer.replace(" ", "")
 
@@ -180,6 +175,7 @@ class CountryPage(tk.Frame):
             ImagePath = 'correct.png'
             self.img3 = ImageTk.PhotoImage(Image.open(ImagePath).resize((100, 100), Image.ANTIALIAS))
             resultImage = canv.create_image(450, 30, anchor="nw", image=self.img3)
+            correct_count += 1
         else:
             # wrong
             print('틀렸슴돠')
@@ -188,6 +184,9 @@ class CountryPage(tk.Frame):
 
             resultImage = canv.create_image(450, 30, anchor="nw", image=self.img4)
 
+        # resolve 15 problems
+        if problem_count <= 0:
+            master.switch_frame(FinishPage)
         canv.after(1000, self.delete_img, canv, resultImage)
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
@@ -205,6 +204,38 @@ class CountryPage(tk.Frame):
 
         print(answer)
 
+    def passBtn_click(self, tk, canv, check_img):
+        global pass_count, pass_window
+        global country_img, answer
+        pass_count = pass_count - 1
+        if (pass_count < 0):
+            print("패스 그만")
+            pass_count = 0
+            tk.messagebox.showerror('Pass', 'You Don\'t have pass ticket!')
+        else:
+            filename = random.choice(os.listdir("./images"))
+            code = filename.split(".")[0]
+
+            # 엑셀에 없는 이미지일 경우 예외처리
+            while code.upper() not in df.index:
+                filename = random.choice(os.listdir("./images"))
+                code = filename.split(".")[0]
+
+            countryPath = "./images/" + filename
+            canv.after(1000, self.delete_img, canv, check_img)
+            self.img2 = ImageTk.PhotoImage(Image.open(countryPath).resize((180, 130), Image.ANTIALIAS))
+            country_img = canv.create_image(210, 130, anchor="nw", image=self.img2)
+            answer = df["country"][code.upper()]
+
+        self.delete_img(canv, pass_window)
+        BtnFont = tkFont.Font(family="Consolas", size=15)
+        pass_btn = tk.Button(self, text="pass: " + str(pass_count) + "/3",
+                             width=10, height=1, font=BtnFont, foreground="yellow",
+                             background="black", relief="ridge",
+                             activebackground="yellow", activeforeground="black",
+                             command=lambda: self.passBtn_click(tk, canv, country_img))
+        pass_window = canv.create_window((600 // 2) + 80, (500 // 2) + 140, window=pass_btn)
+
     def delete_img(self, canv, dele_img_name):
         canv.delete(dele_img_name)
 
@@ -219,8 +250,8 @@ class FinishPage(tk.Frame):
         canv.create_image(0, 0, anchor="nw", image=self.img)
 
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold")
-        canv.create_text((600 // 2), (500 // 2) - 100, fill="white", text="총점수", font=labelFont)
-        canv.create_text((600 // 2), (500 // 2) - 70, fill="white", text="수고하셨습니다.", font=labelFont)
+        canv.create_text((600 // 2), (500 // 2) - 50, fill="white", text="total score : " + str(correct_count)+ "/15", font=labelFont)
+        canv.create_text((600 // 2), (500 // 2) + 50, fill="white", text="Good Job!", font=labelFont)
 
 
 if __name__ == "__main__":
@@ -232,6 +263,7 @@ if __name__ == "__main__":
     correct_count = 0
     answer = 0
     country_img = 0
+    pass_window = 0
 
     df = pd.read_excel("./CountryCodeData.xlsx", index_col=0, names=["code", "country"])
     print(df["country"]["KR"])
