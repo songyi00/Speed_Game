@@ -149,10 +149,24 @@ class CountryPage(tk.Frame):
         mins, secs = divmod(self.num, 60)
         timeformat = '{:02d}:{:02d}'.format(mins, secs)
         TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
-        self.timer = tk.Label(self, text=timeformat, font=TimerFont)
-        self.timer.pack(side="right", pady=20)
-        self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
-        self.threadctl.start()
+        timer_text = canv.create_text(100, 100, fill="white", text=timeformat, font=TimerFont)
+        canv.after(1000, self.count, canv, timer_text)
+
+    def count(self, canv, timer_text):
+        mins, secs = divmod(self.num, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        canv.delete(timer_text)
+        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
+        timer_text = canv.create_text(100, 100, fill="white", text=timeformat, font=TimerFont)
+        self.num -= 1
+        if self.num == 0:
+            msgBox = tk.messagebox.askretrycancel('Exit App', 'Really Quit?')
+            if msgBox == True:
+                self.master.switch_frame(StartPage)
+            else:
+                self.master.switch_frame(FinishPage)
+        else:
+            canv.after(1000, self.count, canv, timer_text)
 
     # click check button
     def checkBtn_click(self, master, user_text, check_answer, canv, check_img):
@@ -190,28 +204,9 @@ class CountryPage(tk.Frame):
         answer = df["country"][code.upper()]
 
         print(answer)
-        # master.switch_frame(CountryPage)
 
     def delete_img(self, canv, dele_img_name):
         canv.delete(dele_img_name)
-
-    def countdown(self, task):
-        self.timer.pack_forget()
-        self.num = self.num - 1
-        mins, secs = divmod(self.num, 60)
-        timeformat = '{:02d}:{:02d}'.format(mins, secs)
-        TimerFont = tkFont.Font(family="Arial", size=30, weight="bold", slant="italic")
-        self.timer = tk.Label(self, text=timeformat, font=TimerFont)
-        self.timer.pack(pady=20)
-        if (self.num >= 0):
-            self.threadctl = threading.Timer(interval=1, function=self.countdown, args=(1,))
-            self.threadctl.start()
-        else:
-            msgBox = tk.messagebox.askretrycancel('Exit App', 'Really Quit?')
-            if msgBox == True:
-                self.master.switch_frame(StartPage)
-            else:
-                self.master.switch_frame(FinishPage)
 
 
 class FinishPage(tk.Frame):
@@ -229,9 +224,9 @@ class FinishPage(tk.Frame):
 
 
 if __name__ == "__main__":
-    #pygame.init()
-    #mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
-    #mySound.play(-1)
+    pygame.init()
+    mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
+    mySound.play(-1)
     pass_count = 3
     problem_count = 15
     correct_count = 0
