@@ -9,7 +9,7 @@ import threading
 from tkinter import messagebox
 
 try:
-    import tkinter as tk
+    import Tkinter as tk
 except:
     import tkinter as tk
 

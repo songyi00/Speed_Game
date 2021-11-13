@@ -9,7 +9,7 @@ import threading
 from tkinter import messagebox
 
 try:
-    import tkinter as tk
+    import Tkinter as tk
 except:
     import tkinter as tk
 
@@ -44,7 +44,7 @@ class StartPage(tk.Frame):
         canv.create_text((600 // 2), (500 // 2) - 40, fill="white", text="Speed Game", font=labelFont)
 
         startBtnFont = tkFont.Font(family="Consolas", size=20)
-        startBtn = tk.Button(canv, text="START", font=startBtnFont, foreground="yellow", background="black",
+        startBtn = tk.Button(canv, text="START", font=startBtnFont, foreground="black", background="black",
                              relief="ridge", borderwidth=5, highlightbackground="yellow",
                              activebackground="yellow", activeforeground="black",
                              command=lambda: master.switch_frame(CategoryPage))
@@ -65,19 +65,19 @@ class CategoryPage(tk.Frame):
         canv.create_text((600 // 2), (500 // 2) - 190, fill="white", text="Speed Game", font=labelFont)
 
         btnFont = tkFont.Font(family="Consolas", size=20)
-        countryBtn = tk.Button(self, text="country", foreground="yellow",
+        countryBtn = tk.Button(self, text="country", foreground="black",
                                width=15, height=1,
-                               background="black", font=btnFont, relief="ridge",
+                               background="yellow", font=btnFont, relief="ridge",
                                borderwidth=5, highlightbackground="yellow",
-                               activebackground="yellow", activeforeground="black",
+                               activebackground="yellow", activeforeground="yellow",
                                command=lambda: master.switch_frame(CountryPage))
         canv.create_window((600 // 2), (500 // 2) - 100, window=countryBtn)
 
-        prevBtn = tk.Button(self, text="preve page", foreground="yellow",
+        prevBtn = tk.Button(self, text="preve page", foreground="black",
                             width=15, height=1,
-                            background="black", font=btnFont, relief="ridge",
+                            background="yellow", font=btnFont, relief="ridge",
                             borderwidth=5, highlightbackground="yellow",
-                            activebackground="yellow", activeforeground="black",
+                            activebackground="yellow", activeforeground="yellow",
                             command=lambda: master.switch_frame(StartPage))
         canv.create_window((600 // 2), (500 // 2) - 10, window=prevBtn)
 
@@ -124,15 +124,15 @@ class CountryPage(tk.Frame):
         canv.create_window((600 // 2), (500 // 2) + 70, window=input_text)
 
         check_btn = tk.Button(self, text="check",
-                              width=10, height=1, font=BtnFont, foreground="yellow",
-                              background="black", relief="ridge",
+                              width=10, height=1, font=BtnFont, foreground="black",
+                              background="yellow", relief="ridge",
                               activebackground="yellow", activeforeground="black",
                               command=lambda: self.checkBtn_click(master, input_text.get(), answer, canv,country_img))
         canv.create_window((600 // 2) - 80, (500 // 2) + 140, window=check_btn)
 
         pass_btn = tk.Button(self, text="pass: " + str(pass_count) + "/3",
-                             width=10, height=1, font=BtnFont, foreground="yellow",
-                             background="black", relief="ridge",
+                             width=10, height=1, font=BtnFont, foreground="black",
+                             background="yellow", relief="ridge",
                              activebackground="yellow", activeforeground="black",
                              command=lambda: self.passBtn_click(tk, canv, country_img))
         pass_window = canv.create_window((600 // 2) + 80, (500 // 2) + 140, window=pass_btn)
@@ -255,9 +255,9 @@ class FinishPage(tk.Frame):
 
 
 if __name__ == "__main__":
-    pygame.init()
-    mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
-    mySound.play(-1)
+    #pygame.init()
+    #mySound = pygame.mixer.Sound("SpeedGameBgm.mp3")
+    #mySound.play(-1)
     pass_count = 3
     problem_count = 15
     correct_count = 0
