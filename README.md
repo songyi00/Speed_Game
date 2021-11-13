@@ -3,7 +3,7 @@
 ▶ PLAY
 
 <p>
- <img width="700" alt="speed_game_gif" src="https://user-images.githubusercontent.com/52441923/141610215-d1b50485-b917-4ba8-b1e8-5f352108ef65.gif">
+ <img width="400" alt="speed_game_gif" src="https://user-images.githubusercontent.com/52441923/141610215-d1b50485-b917-4ba8-b1e8-5f352108ef65.gif">
 </p>
 
 ## **Introduction 📝**
