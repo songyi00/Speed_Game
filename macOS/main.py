@@ -13,9 +13,6 @@ try:
 except:
     import tkinter as tk
 
-import pygame
-
-
 class SampleApp(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
