@@ -88,7 +88,7 @@ class CountryPage(tk.Frame):
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
 
-        # 엑셀에 없는 이미지일 경우 예외처리
+        # data not in excel file 
         while code.upper() not in df.index:
             filename = random.choice(os.listdir("./images"))
             code = filename.split(".")[0]
@@ -168,14 +168,14 @@ class CountryPage(tk.Frame):
 
         if (user_text == check_answer):
             # correct
-            print('맞았습돠')
+            print('correct')
             ImagePath = 'correct.png'
             self.img3 = ImageTk.PhotoImage(Image.open(ImagePath).resize((100, 100), Image.ANTIALIAS))
             resultImage = canv.create_image(450, 30, anchor="nw", image=self.img3)
             correct_count += 1
         else:
             # wrong
-            print('틀렸슴돠')
+            print('wrong')
             ImagePath = 'wrong.png'
             self.img4 = ImageTk.PhotoImage(Image.open(ImagePath).resize((100, 100), Image.ANTIALIAS))
 
@@ -188,7 +188,7 @@ class CountryPage(tk.Frame):
         filename = random.choice(os.listdir("./images"))
         code = filename.split(".")[0]
 
-        # 엑셀에 없는 이미지일 경우 예외처리
+        # data not in excel file 
         while code.upper() not in df.index:
             filename = random.choice(os.listdir("./images"))
             code = filename.split(".")[0]
@@ -213,7 +213,7 @@ class CountryPage(tk.Frame):
             filename = random.choice(os.listdir("./images"))
             code = filename.split(".")[0]
 
-            # 엑셀에 없는 이미지일 경우 예외처리
+            # data not in excel file 
             while code.upper() not in df.index:
                 filename = random.choice(os.listdir("./images"))
                 code = filename.split(".")[0]
