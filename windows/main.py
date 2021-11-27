@@ -1,18 +1,10 @@
 import tkinter.font as tkFont
-from tkinter import messagebox
 import pandas as pd
 import os
 import random
 from PIL import Image, ImageTk
-import time
-import threading
-from tkinter import messagebox
-
-try:
-    import tkinter as tk
-except:
-    import tkinter as tk
-
+import tkinter as tk
+import tkinter.messagebox as tkMessage
 import pygame
 
 
@@ -38,24 +30,26 @@ class StartPage(tk.Frame):
         canv = tk.Canvas(self, width=600, height=500, bg='white')
         canv.pack(side='bottom')
         self.img = ImageTk.PhotoImage(Image.open(ImagePath)
-        .resize((600, 500), Image.ANTIALIAS))
+                                      .resize((600, 500), Image.ANTIALIAS))
         canv.create_image(0, 0, anchor="nw", image=self.img)
 
-        labelFont = tkFont.Font(
-            family="Arial", size=40, weight="bold", slant="italic")
-        canv.create_text(
-            (600 // 2), (500 // 2) - 40, fill="white", 
-            text="Speed Game", font=labelFont)
+        labelFont = tkFont.Font(family="Arial", size=40,
+                                weight="bold", slant="italic")
+        canv.create_text((600 // 2), (500 // 2) - 40,
+                         fill="white", text="Speed Game",
+                         font=labelFont)
 
         startBtnFont = tkFont.Font(family="Consolas", size=20)
-        startBtn = tk.Button(
-            canv, text="START", font=startBtnFont, 
-            foreground="yellow", background="black", 
-            relief="ridge", borderwidth=5, 
-            highlightbackground="yellow", activebackground="yellow", 
-            activeforeground="black", 
-            command=lambda: master.switch_frame(CategoryPage))
+        startBtn = tk.Button(canv, text="START", font=startBtnFont,
+                             foreground="yellow", background="black",
+                             relief="ridge", borderwidth=5,
+                             highlightbackground="yellow",
+                             activebackground="yellow",
+                             activeforeground="black",
+                             command=lambda: master.switch_frame(CategoryPage)
+                             )
         canv.create_window((600 // 2), (500 // 2) + 100, window=startBtn)
+
 
 class CategoryPage(tk.Frame):
     def __init__(self, master):
@@ -65,11 +59,12 @@ class CategoryPage(tk.Frame):
         canv = tk.Canvas(self, width=600, height=500, bg='white')
         canv.pack(side='bottom')
         self.img = ImageTk.PhotoImage(Image.open(ImagePath)
-        .resize((600, 500), Image.ANTIALIAS))
+                                      .resize((600, 500), Image.ANTIALIAS)
+                                      )
         canv.create_image(0, 0, anchor="nw", image=self.img)
 
         labelFont = tkFont.Font(
-            family="Arial", size=40, 
+            family="Arial", size=40,
             weight="bold", slant="italic")
         canv.create_text(
             (600 // 2), (500 // 2) - 190, fill="white",
@@ -77,7 +72,7 @@ class CategoryPage(tk.Frame):
 
         btnFont = tkFont.Font(family="Consolas", size=20)
         countryBtn = tk.Button(self, text="country",
-                               oreground="yellow",
+                               foreground="yellow",
                                width=15, height=1,
                                background="black",
                                font=btnFont,
@@ -85,15 +80,18 @@ class CategoryPage(tk.Frame):
                                borderwidth=5, highlightbackground="yellow",
                                activebackground="yellow",
                                activeforeground="black",
-                               command=lambda: master.switch_frame(CountryPage))
+                               command=lambda: master.switch_frame(CountryPage)
+                               )
         canv.create_window((600 // 2), (500 // 2) - 100, window=countryBtn)
 
         prevBtn = tk.Button(self, text="preve page", foreground="yellow",
                             width=15, height=1,
                             background="black", font=btnFont, relief="ridge",
                             borderwidth=5, highlightbackground="yellow",
-                            activebackground="yellow", activeforeground="black",
-                            command=lambda: master.switch_frame(StartPage))
+                            activebackground="yellow",
+                            activeforeground="black",
+                            command=lambda: master.switch_frame(StartPage)
+                            )
         canv.create_window((600 // 2), (500 // 2) - 10, window=prevBtn)
 
 
@@ -122,20 +120,18 @@ class CountryPage(tk.Frame):
         canv = tk.Canvas(self, width=600, height=500, bg='white')
         canv.pack()
         self.img1 = ImageTk.PhotoImage(Image.open(backgroundPath)
-        .resize((600, 500), Image.ANTIALIAS))
+                                       .resize((600, 500), Image.ANTIALIAS))
         canv.create_image(0, 0, anchor="nw", image=self.img1)
 
-        titleFont = tkFont.Font(
-            family="Arial", size=40, 
-            weight="bold", slant="italic")
-        canv.create_text(
-            (600 // 2), (500 // 2) - 190, fill="white",
-            text="Country", font=titleFont)
+        titleFont = tkFont.Font(family="Arial", size=40,
+                                weight="bold", slant="italic")
+        canv.create_text((600 // 2), (500 // 2) - 190, fill="white",
+                         text="Country", font=titleFont)
 
         self.img2 = ImageTk.PhotoImage(Image.open(countryPath)
-        .resize((180, 130), Image.ANTIALIAS))
-        country_img = canv.create_image(
-            210, 130, anchor="nw", image=self.img2)
+                                       .resize((180, 130), Image.ANTIALIAS))
+        country_img = canv.create_image(210, 130, anchor="nw",
+                                        image=self.img2)
 
         labelFont = tkFont.Font(family="Arial", size=17, slant="italic")
         BtnFont = tkFont.Font(family="Consolas", size=15)
@@ -153,7 +149,7 @@ class CountryPage(tk.Frame):
             background="black", relief="ridge",
             activebackground="yellow", activeforeground="black",
             command=lambda: self.checkBtn_click(
-                master, input_text.get(), answer, canv,country_img))
+                master, input_text.get(), answer, canv, country_img))
         canv.create_window((600 // 2) - 80, (500 // 2) + 140, window=check_btn)
 
         pass_btn = tk.Button(
@@ -184,8 +180,8 @@ class CountryPage(tk.Frame):
             100, 100, fill="white", text=timeformat, font=TimerFont)
         self.num -= 1
         if self.num < 0:
-            msgBox = tk.messagebox.askretrycancel('Exit App', 'Really Quit?')
-            if msgBox == True:
+            msgBox = tkMessage.askretrycancel('Exit App', 'Really Quit?')
+            if msgBox is True:
                 self.master.switch_frame(StartPage)
             else:
                 self.master.switch_frame(FinishPage)
@@ -233,9 +229,9 @@ class CountryPage(tk.Frame):
             code = filename.split(".")[0]
 
         countryPath = "./images/" + filename
-        canv.after(1000,self.delete_img, canv, check_img)
+        canv.after(1000, self.delete_img, canv, check_img)
         self.img2 = ImageTk.PhotoImage(Image.open(countryPath)
-        .resize((180, 130), Image.ANTIALIAS))
+                                       .resize((180, 130), Image.ANTIALIAS))
         country_img = canv.create_image(210, 130, anchor="nw", image=self.img2)
         answer = df["country"][code.upper()]
 
@@ -248,12 +244,11 @@ class CountryPage(tk.Frame):
         if (pass_count < 0):
             print("Don't pass")
             pass_count = 0
-            tk.messagebox.showerror('Pass', 'You Don\'t have pass ticket!')
+            tkMessage.showerror('Pass', 'You Don\'t have pass ticket!')
         else:
             filename = random.choice(os.listdir("./images"))
             code = filename.split(".")[0]
 
-            
             while code.upper() not in df.index:
                 filename = random.choice(os.listdir("./images"))
                 code = filename.split(".")[0]
@@ -261,8 +256,10 @@ class CountryPage(tk.Frame):
             countryPath = "./images/" + filename
             canv.after(1000, self.delete_img, canv, check_img)
             self.img2 = ImageTk.PhotoImage(Image.open(countryPath)
-            .resize((180, 130), Image.ANTIALIAS))
-            country_img = canv.create_image(210, 130, anchor="nw", image=self.img2)
+                                           .resize((180, 130), Image.ANTIALIAS)
+                                           )
+            country_img = canv.create_image(210, 130,
+                                            anchor="nw", image=self.img2)
             answer = df["country"][code.upper()]
 
         self.delete_img(canv, pass_window)
@@ -287,16 +284,15 @@ class FinishPage(tk.Frame):
         canv = tk.Canvas(self, width=600, height=500, bg='white')
         canv.pack(side='bottom')
         self.img = ImageTk.PhotoImage(Image.open(ImagePath)
-        .resize((600, 500), Image.ANTIALIAS))
+                                      .resize((600, 500), Image.ANTIALIAS))
         canv.create_image(0, 0, anchor="nw", image=self.img)
 
         labelFont = tkFont.Font(family="Arial", size=40, weight="bold")
-        canv.create_text(
-            (600 // 2), (500 // 2) - 50, fill="white",
-            text="total score : " + str(correct_count)+ "/15", font=labelFont)
-        canv.create_text(
-            (600 // 2), (500 // 2) + 50, fill="white",
-             text="Good Job!", font=labelFont)
+        canv.create_text((600 // 2), (500 // 2) - 50, fill="white",
+                         text="total score : " + str(correct_count) + "/15",
+                         font=labelFont)
+        canv.create_text((600 // 2), (500 // 2) + 50, fill="white",
+                         text="Good Job!", font=labelFont)
 
 
 if __name__ == "__main__":
@@ -310,8 +306,8 @@ if __name__ == "__main__":
     country_img = 0
     pass_window = 0
 
-    df = pd.read_excel(
-        "./CountryCodeData.xlsx", index_col=0, names=["code", "country"])
+    df = pd.read_excel("./CountryCodeData.xlsx", index_col=0,
+                       names=["code", "country"])
     print(df["country"]["KR"])
 
     app = SampleApp()
